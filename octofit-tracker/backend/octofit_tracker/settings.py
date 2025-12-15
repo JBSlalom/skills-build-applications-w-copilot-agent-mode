@@ -103,10 +103,27 @@ DATABASES = {
     }
 }
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = ['*']
 CORS_ALLOW_METHODS = ['DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']
+
+# Allow React dev server (localhost:3000) and Codespaces frontend (https://$CODESPACE_NAME-3000.app.github.dev)
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+if codespace_name:
+    CORS_ALLOWED_ORIGINS.append(f"https://{codespace_name}-3000.app.github.dev")
+
+# CSRF trusted origins for POSTing from the frontend (if needed)
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+]
+if codespace_name:
+    CSRF_TRUSTED_ORIGINS.extend([
+        f"https://{codespace_name}-3000.app.github.dev",
+        f"https://{codespace_name}-8000.app.github.dev",
+    ])
 
 
 # Password validation
